@@ -1,0 +1,31 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DB_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model UserAccount {
+  controllerInputs ControllerInput[]
+  createdAt        DateTime          @default(now())
+  hat              String?
+  height           Float?
+  id               String            @id @default(cuid())
+  pants            String?
+  shirt            String?
+  updatedAt        DateTime          @updatedAt
+  username         String?
+}
+
+model ControllerInput {
+  createdAt     DateTime     @default(now())
+  id            String       @id @default(cuid())
+  inputType     String?
+  inputValue    String?
+  timestamp     DateTime?
+  updatedAt     DateTime     @updatedAt
+  userAccount   UserAccount? @relation(fields: [userAccountId], references: [id])
+  userAccountId String?
+}
